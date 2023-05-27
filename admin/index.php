@@ -120,7 +120,7 @@ if (isset($_GET['logout']) && $_GET['logout'] == 1) {
     <script src="js/demo/chart-pie-demo.js"></script>
     <script src="js/demo/datatables-demo.js"></script>
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBS517GvRegtsE5gWMPICt2aGAkpJDc4T0&callback=loadMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=loadMap"></script>
 </body>
 
 </html>
