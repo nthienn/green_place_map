@@ -34,7 +34,7 @@
     include("./pages/footer.php");
     ?>
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDloBT6ba_jvl5PEkU-Uu12MtnA1aM_Rxw&callback=loadMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=loadMap"></script>
     <script src="./js/app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="text/javascript" src="https://cdn.fchat.vn/assets/embed/webchat.js?id=6451b1a0caf5664b492b1ff9" async="async"></script>
@@ -47,5 +47,3 @@
 
 </html>
 
-<!-- AIzaSyDloBT6ba_jvl5PEkU-Uu12MtnA1aM_Rxw -->
-<!-- AIzaSyBS517GvRegtsE5gWMPICt2aGAkpJDc4T0 -->
