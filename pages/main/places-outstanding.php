@@ -7,9 +7,9 @@ if (isset($_GET['trang'])) {
 if ($page == '' || $page == 1) {
     $begin = 0;
 } else {
-    $begin = ($page * 20) - 20;
+    $begin = ($page * 16) - 16;
 }
-$sql_places = "SELECT * FROM places,place_types WHERE places.id_place_type=place_types.id_place_type ORDER BY places.star DESC LIMIT $begin,20";
+$sql_places = "SELECT * FROM places,place_types WHERE places.id_place_type=place_types.id_place_type ORDER BY places.star DESC LIMIT $begin,16";
 $query_places = mysqli_query($mysqli, $sql_places);
 ?>
 
@@ -92,7 +92,7 @@ $query_places = mysqli_query($mysqli, $sql_places);
     <?php
     $sql_trang = mysqli_query($mysqli, "SELECT * FROM places");
     $row_count = mysqli_num_rows($sql_trang);
-    $trang = ceil($row_count / 20);
+    $trang = ceil($row_count / 16);
     ?>
 
     <!-- Pagination -->

@@ -1,67 +1,4 @@
 <?php
-class greenPlace
-{
-    private $id_place;
-    private $placeName;
-    private $lat;
-    private $lng;
-    private $address;
-    private $image;
-    private $description;
-    private $status;
-    private $star;
-    private $id_place_type;
-    private $id_user;
-    private $conn;
-    private $tableName = "places";
-
-    function setId_place($id_place) { $this->id_place = $id_place; }
-    function getId_place() { return $this->id_place; }
-    function setPlaceName($placeName) { $this->placeName = $placeName; }
-    function getPlaceName() { return $this->placeName; }
-    function setLat($lat) { $this->lat = $lat; }
-    function getLat() { return $this->lat; }
-    function setLng($lng) { $this->lng = $lng; }
-    function getLng() { return $this->lng; }
-    function setAddress($address) { $this->address = $address; }
-    function getAddress() { return $this->address; }
-    function setImage($image) { $this->image = $image; }
-    function getImage() { return $this->image; }
-    function setDescription($description) { $this->description = $description; }
-    function getDescription() { return $this->description; }
-    function setStatus($status) { $this->status = $status; }
-    function getStatus() { return $this->status; }
-    function setStar($star) { $this->star = $star; }
-    function getStar() { return $this->star; }
-    function setId_place_type($id_place_type) { $this->id_place_type = $id_place_type; }
-    function getId_place_type() { return $this->id_place_type; }
-    function setId_user($id_user) { $this->id_user = $id_user; }
-    function getId_user() { return $this->id_user; }
-
-    public function __construct() {
-        require_once('DbConnect.php');
-        $conn = new DbConnect;
-        $this->conn = $conn->connect();
-    }
-
-    public function getCollegeBlankLatLng()
-    {
-        $sql = "SELECT * FROM $this->tableName WHERE lat IS NULL AND lng IS NULL";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function getColleges()
-    {
-        $sql = "SELECT * FROM $this->tableName WHERE id_place='$_GET[id]'";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-}
-?>
-<?php
 $sql_place = "SELECT * FROM places WHERE places.id_place='$_GET[id]'";
 $query_place = mysqli_query($mysqli, $sql_place);
 $sql_user = "SELECT * FROM places,users WHERE places.id_user=users.id_user AND places.id_place='$_GET[id]'";
@@ -194,8 +131,8 @@ $query_user = mysqli_query($mysqli, $sql_user);
             <div class="map" style="width:100%; height:400px; margin-bottom:32px;">
                 <?php
                 require 'greenPlace.php';
-                $edu = new greenPlace;
-                $coll = $edu->getCollegeBlankLatLng();
+                $edu = new detail;
+                $coll = $edu->getCollegesBlankLatLng();
                 $coll = json_encode($coll, true);
                 echo '<div id="data">' . $coll . '</div>';
 

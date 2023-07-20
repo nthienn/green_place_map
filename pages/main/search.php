@@ -1,68 +1,4 @@
 <?php
-class greenPlace
-{
-    private $id_place;
-    private $placeName;
-    private $lat;
-    private $lng;
-    private $address;
-    private $image;
-    private $description;
-    private $status;
-    private $star;
-    private $id_place_type;
-    private $id_user;
-    private $conn;
-    private $tableName = "places";
-
-    function setId_place($id_place) { $this->id_place = $id_place; }
-    function getId_place() { return $this->id_place; }
-    function setPlaceName($placeName) { $this->placeName = $placeName; }
-    function getPlaceName() { return $this->placeName; }
-    function setLat($lat) { $this->lat = $lat; }
-    function getLat() { return $this->lat; }
-    function setLng($lng) { $this->lng = $lng; }
-    function getLng() { return $this->lng; }
-    function setAddress($address) { $this->address = $address; }
-    function getAddress() { return $this->address; }
-    function setImage($image) { $this->image = $image; }
-    function getImage() { return $this->image; }
-    function setDescription($description) { $this->description = $description; }
-    function getDescription() { return $this->description; }
-    function setStatus($status) { $this->status = $status; }
-    function getStatus() { return $this->status; }
-    function setStar($star) { $this->star = $star; }
-    function getStar() { return $this->star; }
-    function setId_place_type($id_place_type) { $this->id_place_type = $id_place_type; }
-    function getId_place_type() { return $this->id_place_type; }
-    function setId_user($id_user) { $this->id_user = $id_user; }
-    function getId_user() { return $this->id_user; }
-
-    public function __construct() {
-        require_once('DbConnect.php');
-        $conn = new DbConnect;
-        $this->conn = $conn->connect();
-    }
-
-    public function getCollegeBlankLatLng()
-    {
-        $sql = "SELECT * FROM $this->tableName WHERE lat IS NULL AND lng IS NULL";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function getColleges()
-    {
-        $tukhoa = $_POST['tukhoa'];
-        $sql = "SELECT * FROM $this->tableName WHERE (places.placeName LIKE '%$tukhoa%' OR places.address LIKE '%$tukhoa%')";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-}
-?>
-<?php
 if (isset($_GET['trang'])) {
     $page = $_GET['trang'];
 } else {
@@ -71,7 +7,7 @@ if (isset($_GET['trang'])) {
 if ($page == '' || $page == 1) {
     $begin = 0;
 } else {
-    $begin = ($page * 20) - 20;
+    $begin = ($page * 50) - 50;
 }
 
 if (isset($_POST['timkiem'])) {
@@ -79,7 +15,7 @@ if (isset($_POST['timkiem'])) {
 } else {
     $tukhoa = '';
 }
-$sql_places = "SELECT * FROM places,place_types WHERE places.id_place_type=place_types.id_place_type AND (places.placeName LIKE '%$tukhoa%' OR places.address LIKE '%$tukhoa%') ORDER BY places.star DESC LIMIT $begin,20";
+$sql_places = "SELECT * FROM places,place_types WHERE places.id_place_type=place_types.id_place_type AND (places.placeName LIKE '%$tukhoa%' OR places.address LIKE '%$tukhoa%') ORDER BY places.star DESC LIMIT $begin,50";
 $query_places = mysqli_query($mysqli, $sql_places);
 ?>
 
@@ -90,8 +26,9 @@ $query_places = mysqli_query($mysqli, $sql_places);
     <h3 class="heading">Tìm kiếm: <span><?php echo $_POST['tukhoa'] ?></span></h3>
     <div class="map" style="width:100%; height:400px; margin-bottom:32px;">
         <?php
-        $edu = new greenPlace;
-        $coll = $edu->getCollegeBlankLatLng();
+        require 'greenPlace.php';
+        $edu = new search;
+        $coll = $edu->getCollegesBlankLatLng();
         $coll = json_encode($coll, true);
         echo '<div id="data">' . $coll . '</div>';
 
@@ -148,26 +85,6 @@ $query_places = mysqli_query($mysqli, $sql_places);
     </div>
 
     <?php
-    $sql_trang = mysqli_query($mysqli, "SELECT * FROM places");
-    $row_count = mysqli_num_rows($sql_trang);
-    $trang = ceil($row_count / 20);
+    include 'pagination.php';
     ?>
-
-    <!-- Pagination -->
-    <ul class="pagination">
-        <?php
-        for ($i = 1; $i <= $trang; $i++) {
-        ?>
-            <li class="pagination-item">
-                <a <?php if ($i == $page) {
-                        echo 'style="color: #fff; background-color: rgb(87, 201, 87)"';
-                    } else {
-                        echo '';
-                    }  ?> href="index.php?action=diadiemxanh&query=outstanding&trang=<?php echo $i ?>" class="pagination-item-link"><?php echo $i ?>
-                </a>
-            </li>
-        <?php
-        }
-        ?>
-    </ul>
 </section>
